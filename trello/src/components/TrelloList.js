@@ -1,13 +1,17 @@
 import { CardTravelSharp } from "@material-ui/icons";
 import React from "react";
+import TrelloActionButton from "./trelloActionButton";
 import TrelloCard from "./TrelloCard";
 const TrelloList = ({ title, cards }) => {
   return (
     <div style={style.container}>
       <h4>{title}</h4>
       {cards.map(({ text }, id) => (
-        <TrelloCard key={id} text={text} />
+        <>
+          <TrelloCard key={id} text={text} />
+        </>
       ))}
+      <TrelloActionButton />
     </div>
   );
 };
