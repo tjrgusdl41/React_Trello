@@ -2,13 +2,16 @@ import React from "react";
 import { Card } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { CardContent } from "@material-ui/core";
+import TrelloActionButton from "./trelloActionButton";
 const TrelloCard = ({ text }) => {
   return (
-    <Card style={styles.CardContainer}>
-      <CardContent>
-        <Typography gutterBottom>{text}</Typography>
-      </CardContent>
-    </Card>
+    <>
+      <Card style={styles.CardContainer}>
+        <CardContent>
+          <Typography gutterBottom>{text}</Typography>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 const styles = {

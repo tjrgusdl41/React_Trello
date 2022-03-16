@@ -7,9 +7,7 @@ const TrelloList = ({ title, cards }) => {
     <div style={style.container}>
       <h4>{title}</h4>
       {cards.map(({ text }, id) => (
-        <>
-          <TrelloCard key={id} text={text} />
-        </>
+        <TrelloCard key={id} text={text} />
       ))}
       <TrelloActionButton />
     </div>
