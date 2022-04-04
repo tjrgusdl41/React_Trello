@@ -21,7 +21,7 @@ const Boards = styled.div`
   grid-template-columns: repeat(1,  1fr) ;
 `
 const Wrapper = styled.div`
- display: flex;
+  display: flex;
   max-width: 480px;
   width: 100%;
   margin: 0 auto;
@@ -30,8 +30,21 @@ const Wrapper = styled.div`
   height: 100vh;
 `
 function App() {
-  const [toDos,setToDos] = useRecoilState(toDoState)
-  const onDragEnd = ({ destination, source }:DropResult) => {
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+    setToDos((oldTodos) => {
+      const toDosCopy = [...oldTodos];
+      console.log("Delete item on", source.index);
+      console.log(toDosCopy);
+      toDosCopy.splice(source.index, 1);
+      console.log("Delete item");
+      console.log(toDosCopy);
+      console.log("Put back", draggableId, "on ", destination.index);
+      toDosCopy.splice(destination?.index, 0, draggableId);
+      console.log(toDosCopy);
+      return toDosCopy;
+    });
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -41,7 +54,7 @@ function App() {
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable draggableId={toDo} index={index}>
+                  <Draggable key={toDo} draggableId={toDo} index={index}>
                     {(magic) => (
                       <Card
                         ref={magic.innerRef}
