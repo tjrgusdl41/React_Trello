@@ -27,6 +27,7 @@ function App() {
   const onDragEnd = (info: DropResult ) => {
     console.log(info); 
     const { destination, draggableId, source } = info; 
+    if (!destination) return;
     if (destination?.droppableId === source.droppableId) {//도착지의 droppableId(BOX이름) 이랑 출발한droppableId 가 같으면 
       //똑같은 박스에서 움직이는 로직관리
       setToDos((allBoards) => { //투두에서 모든 박스들을 받아와서
@@ -34,17 +35,29 @@ function App() {
         boardCopy.splice(source.index, 1);//시작점의 index에 1개요소 제거함.
         boardCopy.splice(destination?.index, 0, draggableId);//도착점의 index에 0개요소를 draggableId(즉 이동시킨 카드로 바꿈)
         return {
-          ...allBoards,
-          [source.droppableId]: boardCopy,
+          ...allBoards, //이전에가지고있는 보드들과
+          [source.droppableId]: boardCopy,//시작점의이름 ex)"todo":bordCopy
+          //나머지보드를 반환한다
         };
       });
     }
-    if (destination?.droppableId !== source.droppableId) {
+    if (destination.droppableId !== source.droppableId) {
       //cross board movement
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]]; //시작점 보드
+        const destinationBoard = [...allBoards[destination.droppableId]] //도착점보드복사
+        sourceBoard.splice(source.index, 1); //시작점의 index에 1개요소 제거함.
+        destinationBoard.splice(destination?.index, 0, draggableId)//도착점의 index에 0개요소를 draggableId(즉 이동시킨 카드로 바꿈)
+        return {
+          ...allBoards, //이전보드
+          [source.droppableId]: sourceBoard, //출발점의보드
+          [destination.droppableId]: destinationBoard, //도착점의보드 모두 리턴
+        }
+      })
     }
   };
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>    
       <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
