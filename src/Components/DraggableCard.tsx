@@ -12,15 +12,16 @@ const Card = styled.div<ICard>`  /*드래그가 가능한 카드*/
   box-shadow:${props=> props.isDragging ? "0px 0px 25px rgba(0,0,0,0.5)":"none"};
 `;
 
-interface IDragabbleCardProps {
-  toDo: string;
+interface IDragabbleCardProps { //Board에서주는 프롭스들을정의해놓은타입
+  toDoId: number;
+  toDoText: string;
   index: number;
-}
+} 
 
-function DragabbleCard({ toDo, index }: IDragabbleCardProps) {
+function DragabbleCard({ toDoId,toDoText,index }: IDragabbleCardProps) {
   // console.log(toDo, "has been rendered");
   return (
-    <Draggable draggableId={toDo} index={index}>
+    <Draggable draggableId={toDoId.toString()} index={index}>
       {(magic,snapshot) => ( //1번째인자에 DraggableProvided 받아오고 두번째 인자에DraggableStateSnapshot을받아온다
         <Card
           isDragging={snapshot.isDragging}
@@ -28,7 +29,7 @@ function DragabbleCard({ toDo, index }: IDragabbleCardProps) {
           {...magic.dragHandleProps}
           {...magic.draggableProps}
         >
-          {toDo}
+          {toDoText}
         </Card>
       )}
     </Draggable>
