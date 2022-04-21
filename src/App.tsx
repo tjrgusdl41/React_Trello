@@ -5,6 +5,7 @@ import { toDoState } from "./atoms";
 import AddBoard from "./Components/AddBoard";
 import Board from "./Components/Board";
 import RemoveBoard from "./Components/RemoveBoard";
+import { motion } from "framer-motion";
 const Wrapper = styled.div`
   width:100vw;
   display: flex;
